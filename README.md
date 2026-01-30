@@ -50,6 +50,89 @@ Detail-oriented **Data Analyst** with hands-on experience in building interactiv
 - Identified **top-performing products** and **underperforming regions**
 
 ---
+Smart-File-Organizer/
+│
+├── file_organizer.py
+└── README.md
+# 📁 Smart File Organizer (Python)
+
+A single-file Python automation script that organizes files in any folder  
+(like Downloads) into categorized subfolders automatically.
+
+---
+
+## 🚀 Features
+- Automatically sorts files by type (Images, Videos, Documents, etc.)
+- Handles duplicate filenames safely
+- Cross-platform (Windows, macOS, Linux)
+- No external libraries required
+- Clean, single-file design (production-style script)
+
+---
+
+## 🧠 Skills Demonstrated
+- Python standard library
+- File system automation
+- Path handling using `pathlib`
+- Error handling & safe file operations
+- Clean, readable scripting
+
+---
+
+## ▶ How to Run
+
+```bash
+python file_organizer.py
+
+import os
+import shutil
+from pathlib import Path
+
+TARGET_FOLDER = Path.home() / "Downloads"
+
+FILE_TYPES = {
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+    "Videos": [".mp4", ".mkv", ".avi", ".mov"],
+    "Documents": [".pdf", ".docx", ".txt", ".pptx", ".xlsx"],
+    "Archives": [".zip", ".rar", ".7z", ".tar", ".gz"],
+    "Programs": [".exe", ".msi"],
+    "Music": [".mp3", ".wav", ".flac"]
+}
+
+def get_destination_folder(extension):
+    for folder, extensions in FILE_TYPES.items():
+        if extension in extensions:
+            return folder
+    return "Others"
+
+def move_file(file_path):
+    ext = file_path.suffix.lower()
+    folder_name = get_destination_folder(ext)
+    destination_dir = TARGET_FOLDER / folder_name
+    destination_dir.mkdir(exist_ok=True)
+
+    destination_path = destination_dir / file_path.name
+    counter = 1
+
+    while destination_path.exists():
+        destination_path = destination_dir / f"{file_path.stem}_{counter}{ext}"
+        counter += 1
+
+    shutil.move(str(file_path), str(destination_path))
+
+def organize_files():
+    for item in TARGET_FOLDER.iterdir():
+        if item.is_file():
+            try:
+                move_file(item)
+            except Exception as e:
+                print(f"Error moving {item.name}: {e}")
+
+    print("✅ Files organized successfully.")
+
+if __name__ == "__main__":
+    organize_files()
+
 
 ### 🐍 Data Analysis Using Python
 - Performed data cleaning and analysis using **Pandas** and **NumPy**  
